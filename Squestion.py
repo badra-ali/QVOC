@@ -1657,6 +1657,8 @@ def generate_sub_questionnaire(dairy_product):
         return {}
 
 # Interface Streamlit
+
+# Interface Streamlit
 def audit_form():
     st.title('Audit de Conformité des Produits Laitiers')
 
@@ -1680,20 +1682,35 @@ def audit_form():
 
         # Bouton de soumission
         if st.button("Soumettre l'audit"):
-            # Sauvegarder les réponses dans un fichier Excel
-            save_to_excel(dairy_product, responses)
-            st.success("Audit soumis avec succès! Les résultats ont été sauvegardés dans un fichier Excel.")
+            # Sauvegarder les réponses dans un fichier Excel et créer un lien de téléchargement
+            excel_data = save_to_excel(dairy_product, responses)
+            st.success("Audit soumis avec succès! Vous pouvez consulter et télécharger le fichier Excel ci-dessous.")
+            
+            # Afficher le bouton de téléchargement
+            st.download_button(
+                label="Télécharger le fichier Excel",
+                data=excel_data,
+                file_name="audit_resultats.xlsx",
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            )
 
-# Fonction pour sauvegarder les réponses dans un fichier Excel
+# Fonction pour sauvegarder les réponses dans un fichier Excel et retourner les données en bytes pour le téléchargement
 def save_to_excel(dairy_product, responses):
     # Transformer les réponses en DataFrame
     data = []
     for category, questions in responses.items():
         for question, answer in questions.items():
             data.append([dairy_product, category, question, answer])
-    
+
     df = pd.DataFrame(data, columns=["Produit Laitier", "Catégorie", "Question", "Réponse"])
-    df.to_excel("audit_resultats.xlsx", index=False)
+    
+    # Sauvegarder dans un fichier en mémoire pour le téléchargement
+    output = BytesIO()
+    with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
+        df.to_excel(writer, index=False)
+    output.seek(0)  # Revenir au début du fichier en mémoire
+
+    return output
 
 # Exécuter l'application Streamlit
 if __name__ == "__main__":
