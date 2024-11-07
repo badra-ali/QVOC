@@ -1800,7 +1800,7 @@ def audit_form():
                 responses[category][question] = st.checkbox(question, key=f"{category}_{idx}")
 
         # Bouton de soumission
-        if st.button("Soumettre l'audit", key="submit_audit_button"):
+        if st.button("Soumettre l'audit", key="audit_button"):
             # Sauvegarder les réponses dans un fichier Excel et créer un lien de téléchargement
             excel_data = save_to_excel(dairy_product, responses)
             st.success("Audit soumis avec succès! Vous pouvez consulter et télécharger le fichier Excel ci-dessous.")
