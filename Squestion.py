@@ -1779,7 +1779,7 @@ def generate_sub_questionnaire(dairy_product):
         return {}
 
 def audit_form():
-    st.title('Audit de Conformité des Produits Laitiers')
+    #st.title('Audit de Conformité des Produits Laitiers')
 
     # Sélection du produit laitier
     dairy_product = st.selectbox("Sélectionner le produit laitier", dairy_products)
@@ -1833,5 +1833,6 @@ def save_to_excel(dairy_product, responses):
 
 # Exécuter l'application Streamlit
 if __name__ == "__main__":
-    audit_form()
     display_audit_form()
+    audit_form()
+    
