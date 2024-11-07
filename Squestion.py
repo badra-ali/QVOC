@@ -76,7 +76,7 @@ def display_audit_form():
     additional_comments = st.text_area("Commentaires additionnels et recommandations")
 
     # Sauvegarder les résultats dans un fichier Excel et proposer le téléchargement
-    if st.button("Soumettre l'audit"):
+    if st.button("Soumettre l'audit", key="submit_audit_button"):
         excel_data = save_audit_to_excel(responses, audit_results, additional_comments)
         st.success("Audit soumis avec succès! Vous pouvez télécharger les résultats ci-dessous.")
 
@@ -1800,7 +1800,7 @@ def audit_form():
                 responses[category][question] = st.checkbox(question, key=f"{category}_{idx}")
 
         # Bouton de soumission
-        if st.button("Soumettre l'audit"):
+        if st.button("Soumettre l'audit", key="submit_audit_button"):
             # Sauvegarder les réponses dans un fichier Excel et créer un lien de téléchargement
             excel_data = save_to_excel(dairy_product, responses)
             st.success("Audit soumis avec succès! Vous pouvez consulter et télécharger le fichier Excel ci-dessous.")
