@@ -1839,3 +1839,4 @@ def save_to_excel(dairy_product, responses):
 # Exécuter l'application Streamlit
 if __name__ == "__main__":
     audit_form()
+    display_audit_form()
