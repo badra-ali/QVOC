@@ -119,11 +119,6 @@ def save_audit_to_excel(responses, audit_results, additional_comments):
     buffer.seek(0)
     return buffer
 
-# Exécuter le formulaire d'audit
-if __name__ == "__main__":
-    display_audit_form()
-
-
 # Liste des dérivés du lait
 dairy_products = ['262 mozzarella', '263 cheddar', '264 danbo', '265 edam', '266 gouda', '267 havarti', '268 samsoe', '269 emmental', '270 tilsiter', '271 saint paulin', '273 cottage cheese', '274 coulommiers', '276 camembert', '277 brie', '275 fromage crémeux', '279 beurre', '243 lait fermenté', '283 fromage', '221 fromage non affiné, y compris les fromages frais', '208 fromage en saumure', '288 crème et crèmes préparées', '272 provolone']
 
