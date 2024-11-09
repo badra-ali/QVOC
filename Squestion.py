@@ -2,59 +2,70 @@ import streamlit as st
 import pandas as pd
 from io import BytesIO
 from datetime import datetime
-import re
 
 # Fonction pour afficher le formulaire d'audit initial
 def display_audit_form():
     st.title("FORMULAIRE D’AUDIT : CONTRÔLE DE LA CONTREFAÇON DES PRODUITS LAITIERS")
 
     # Champs du formulaire d’audit initial
-    audit_date = st.date_input("Date de l’audit :", value=datetime.today())
-    auditor_1 = st.text_input("Nom de l’auditeur 1 :")
-    auditor_2 = st.text_input("Nom de l’auditeur 2 :")
-    audited_entity = st.text_input("Nom de l’entité auditée :")
-    audit_location = st.text_input("Lieu de l’audit :")
+    audit_date = "Du 10 au 16 Novembre 2024"
+    auditor_team = "M. KOFFI Paterne, M. GAHE Lili Eloi"
+    audited_entity = "COTECNA"
+    audit_location = "FRANCE"
     norm_reference = "Codex Alimentarius – Normes pour les Produits Laitiers"
     audit_object = "Évaluation des contrôles sur la contrefaçon des produits laitiers"
 
-    # Initialiser un dictionnaire pour stocker les réponses
+    # Stocker les réponses de l'audit général
     responses = {
         "Date de l’audit": audit_date,
-        "Nom de l’auditeur 1": auditor_1,
-        "Nom de l’auditeur 2": auditor_2,
+        "Équipe d’audit": auditor_team,
         "Nom de l’entité auditée": audited_entity,
         "Lieu de l’audit": audit_location,
         "Référence de la norme": norm_reference,
         "Objet de l’audit": audit_object
     }
 
-    # Sections et questions de l’audit
+    # Sections et questions de l’audit mis à jour
     sections = {
-        "Section 1 : Procédures de contrôle qualité des produits laitiers": [
-            ("Les contrôles mis en place par l'entité sont-ils conformes aux exigences du Codex Alimentarius pour les produits laitiers ?", "Commentaires"),
+        "Section 1 : Etiquetage et Information au consommateur": [
+            ("Nom ou raison sociale", "Commentaires et/ou Preuve"),
+            ("Liste des ingrédients", "Commentaires et/ou Preuve"),
+            ("Auxiliaires technologiques et transfert des additifs alimentaires", "Commentaires et/ou Preuve"),
+            ("Identification des lots", "Commentaires et/ou Preuve"),
+            ("Contenu net et poids égoutté", "Commentaires et/ou Preuve"),
+            ("Nom ou raison sociale (nom et l’adresse du fabricant, de l’emballeur, du distributeur, de l’importateur, de l’exportateur ou du vendeur)", "Commentaires et/ou Preuve"),
+            ("Adresse de la personne responsable", "Commentaires et/ou Preuve"),
+            ("Pays d’origine", "Commentaires et/ou Preuve"),
+            ("Numéro de lot ou référence d’identification", "Commentaires et/ou Preuve"),
+            ("Datage et instructions d’entreposage", "Commentaires et/ou Preuve"),
+            ("Précautions d’emploi et avertissements", "Commentaires et/ou Preuve"),
+            ("Fonction du produit", "Commentaires et/ou Preuve"),
+            ("Langue des mentions (Français)", "Commentaires et/ou Preuve")
+        ],
+        "Section 2 : Procédures de contrôle qualité des produits laitiers": [
+            ("Les contrôles mis en place par COTECNA sont-ils conformes aux exigences du Codex Alimentarius pour les produits laitiers ?", "Commentaires"),
             ("Les analyses ayant justifié la délivrance du COC incluent-elles la vérification des paramètres de qualité physique (texture, couleur, etc.) des produits laitiers ?", "Preuve de l’analyse"),
             ("Les analyses ayant justifié la délivrance du COC incluent-elles la vérification des paramètres de qualité chimique (composition, additifs, contaminants) des produits laitiers ?", "Preuve de l’analyse"),
-            ("Les contrôles incluent-ils des tests d'authenticité pour vérifier l'origine et la composition des produits laitiers ?", "Méthodologie utilisée"),
-            ("L'entité vérifie-t-elle les aspects organoleptiques des produits laitiers (odeur, goût, apparence) comme recommandé par le Codex ?", "Détails des observations faites")
+            ("COTENA vérifie-t-elle les aspects organoleptiques des produits laitiers (odeur, goût, apparence) comme recommandé par le Codex ?", "Preuve"),
+            ("Effectuez-vous des contrôles pour détecter l'origine et la composition des produits laitiers ?", "Détails des observations faites")
         ],
-        "Section 2 : Identification et prévention de la contrefaçon": [
-            ("L'entité dispose-t-elle de critères spécifiques pour identifier les produits laitiers contrefaits ou frauduleux ?", "Exemples de critères appliqués"),
-            ("Les tests de contrôle incluent-ils la vérification de la conformité de l’étiquetage et de l’emballage des produits laitiers ?", "Commentaires"),
-            ("Des mesures sont-elles mises en place pour vérifier que les produits laitiers importés correspondent effectivement aux descriptions fournies sur les étiquettes ?", "Méthodes de vérification")
-        ],
-        "Section 3 : Processus d’émission du certificat de conformité": [
-            ("Les certificats de conformité délivrés incluent-ils de manière précise et complète les éléments ayant fait l'objet de contrôle ?", "Exemple de certificat à joindre"),
-            ("Les tests effectués avant l’émission du certificat permettent-ils de détecter de manière fiable les signes de contrefaçon ?", "Justification")
-        ],
-        "Section 4 : Mesures correctives et recommandations": [
-            ("En cas de non-conformité du produit laitier, des actions sont-elles mises en œuvre pour éviter que le produit soit exporté en Côte d’Ivoire ?", "Détails des actions mises en œuvre"),
-            ("Les contrôles actuels permettent-ils de protéger efficacement le marché ivoirien contre l'entrée de produits laitiers contrefaits ?", "Pourquoi ? Recommandations pour amélioration")
-        ],
-        "Section 5 : Contrôle des contaminants microbiologiques": [
-            ("L'entité effectue-t-elle des tests microbiologiques conformément aux normes du Codex Alimentarius ?", "Détails des agents pathogènes testés et méthodes"),
+        "Section 3 : Contrôle des contaminants microbiologiques": [
+            ("L'entité effectue-t-elle systématiquement des tests microbiologiques conformément aux normes du Codex Alimentarius ?", "Détails des agents pathogènes testés et méthodes"),
             ("Les niveaux de contaminants microbiologiques détectés respectent-ils les seuils de sécurité alimentaire ?", "Commentaires"),
             ("Les tests réalisés incluent-ils un contrôle des niveaux de plomb, cadmium et autres métaux lourds ?", "Détails des résultats"),
             ("Les niveaux de résidus de produits chimiques respectent-ils les limites autorisées par le Codex ?", "Observations supplémentaires")
+        ],
+        "Section 4 : Identification et prévention de la contrefaçon": [
+            ("COTECNA dispose-t-elle d’un dispositif spécifique de vérification des produits laitiers contrefaits ou frauduleux systématiquement appliqués au VOC de la CI ?", "Décrire le dispositif"),
+            ("En cas de détection de produit laitier contrefait ou frauduleux, des actions sont-elles mises en œuvre pour éviter que le produit soit exporté en Côte d’Ivoire ?", "Décrire le dispositif"),
+            ("COTECNA informe-t-il les autorités Ivoiriennes ?", "Commentaires"),
+            ("COTECNA informe-t-il les autres partenaires ?", "Commentaires"),
+            ("Les contrôles actuels permettent-ils de protéger efficacement le marché ivoirien contre l'entrée de produits laitiers contrefaits ?", "Pourquoi ?")
+        ],
+        "Section 5 : Recommandations": [
+            ("Quelles sont vos recommandations pour améliorer le dispositif de contrôle actuel en CI en matière de VOC pour protéger les consommateurs ?", ""),
+            ("Pouvez-vous partager votre expérience sur les programmes VOC appliqués dans d’autres pays avec des réalités proches de celles de la Côte d’Ivoire ?", ""),
+            ("Selon vos pratiques et votre expérience en matière de contrôle qualité, qu’est-ce qui peut être fait pour améliorer les exigences en matière de contrôle sur les produits laitiers ?", "")
         ]
     }
 
@@ -63,20 +74,21 @@ def display_audit_form():
     for section, questions in sections.items():
         st.subheader(section)
         for question, comment_label in questions:
-            col1, col2, col3 = st.columns([4, 1, 4])
+            col1, col2, col3 = st.columns([5, 1, 5])
             with col1:
                 st.write(question)
             with col2:
-                answer = st.radio(f"Réponse", ('Oui', 'Non'), key=question)
+                answer = st.radio("Réponse", ('Oui', 'Non'), key=question)
             with col3:
-                comment = st.text_input(f"{comment_label}", key=f"comment_{question}")
+                comment = st.text_input(comment_label, key=f"comment_{question}")
             audit_results.append([section, question, answer, comment])
 
     # Commentaires additionnels
     additional_comments = st.text_area("Commentaires additionnels et recommandations")
 
-    # Sauvegarder les résultats dans un fichier Excel et proposer le téléchargement
+    # Bouton pour soumettre l'audit
     if st.button("Soumettre l'audit", key="submit_audit_button"):
+        # Sauvegarder les réponses dans un fichier Excel et créer un lien de téléchargement
         excel_data = save_audit_to_excel(responses, audit_results, additional_comments)
         st.success("Audit soumis avec succès! Vous pouvez télécharger les résultats ci-dessous.")
 
@@ -85,7 +97,8 @@ def display_audit_form():
             label="Télécharger le fichier Excel",
             data=excel_data,
             file_name="audit_conformite_produits_laitiers.xlsx",
-            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            key="download_excel_button"
         )
 
 # Fonction pour sauvegarder les réponses dans un fichier Excel
@@ -99,20 +112,10 @@ def save_audit_to_excel(responses, audit_results, additional_comments):
     # Sauvegarder dans un buffer BytesIO pour téléchargement
     buffer = BytesIO()
     with pd.ExcelWriter(buffer, engine='openpyxl') as writer:
-        # Enregistrer les informations générales de l'audit
         audit_info_df.to_excel(writer, index=False, sheet_name="Informations Audit")
-
-        # Nettoyer et sauvegarder les résultats de chaque section
-        for section in results_df["Section"].unique():
-            # Filtrer les questions pour chaque section
-            section_data = results_df[results_df["Section"] == section]
-            section_df = section_data.drop(columns=["Section"])  # On n'inclut pas la colonne "Section" dans chaque onglet
-            
-            # Nettoyer le nom de la section pour qu'il soit compatible avec Excel
-            clean_section_name = re.sub(r"[:\/\\\*\[\]]", "", section)[:30]  # Limite à 30 caractères
-            section_df.to_excel(writer, index=False, sheet_name=clean_section_name)
-
-        # Ajouter les commentaires additionnels
+        results_df.to_excel(writer, index=False, sheet_name="Résultats Audit")
+        
+        # Ajouter les commentaires additionnels en tant que feuille
         additional_comments_df = pd.DataFrame({"Commentaires additionnels et recommandations": [additional_comments]})
         additional_comments_df.to_excel(writer, index=False, sheet_name="Commentaires Additionnels")
 
