@@ -27,7 +27,7 @@ def display_audit_form():
 
     # Sections et questions de l’audit mis à jour
     sections = {
-        "Section 1 : Etiquetage et Information au consommateur                             1. Les contrôles effectués par COTECNA relativement à l’étiquetage du produit tiennent-ils compte des mentions obligatoires visibles et lisibles suivantes":[
+        "'Section 1 : Etiquetage et Information au consommateur' 1. Les contrôles effectués par COTECNA relativement à l’étiquetage du produit tiennent-ils compte des mentions obligatoires visibles et lisibles suivantes":[
             ("Nom ou raison sociale", "Commentaires et/ou Preuve"),
             ("Liste des ingrédients", "Commentaires et/ou Preuve"),
             ("Auxiliaires technologiques et transfert des additifs alimentaires", "Commentaires et/ou Preuve"),
